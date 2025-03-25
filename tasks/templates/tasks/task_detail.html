@@ -1,0 +1,67 @@
+{% extends 'tasks/base.html' %} {% block title %}{{ task.title }} - Task
+Management System{% endblock %} {% block content %}
+<div class="row justify-content-center mt-4">
+  <div class="col-md-8">
+    <div class="card">
+      <div
+        class="card-header d-flex justify-content-between align-items-center"
+      >
+        <h3>Task Details</h3>
+        <div>
+          <a
+            href="{% url 'tasks:task_update' task.id %}"
+            class="btn btn-primary"
+            >Edit</a
+          >
+          <a href="{% url 'tasks:task_delete' task.id %}" class="btn btn-danger"
+            >Delete</a
+          >
+        </div>
+      </div>
+      <div class="card-body">
+        <h4>{{ task.title }}</h4>
+
+        <div class="mb-3">
+          <span
+            class="badge {% if task.status == 'pending' %}bg-warning {% elif task.status == 'in_progress' %}bg-info {% else %}bg-success{% endif %}"
+          >
+            {{ task.get_status_display }}
+          </span>
+        </div>
+
+        {% if task.description %}
+        <div class="mb-4">
+          <h5>Description</h5>
+          <p>{{ task.description|linebreaks }}</p>
+        </div>
+        {% endif %}
+
+        <div class="row g-3">
+          {% if task.due_date %}
+          <div class="col-md-4">
+            <strong>Due Date:</strong>
+            <p>{{ task.due_date }}</p>
+          </div>
+          {% endif %}
+          <div class="col-md-4">
+            <strong>Created:</strong>
+            <p>{{ task.created_at }}</p>
+          </div>
+          <div class="col-md-4">
+            <strong>Last Updated:</strong>
+            <p>{{ task.updated_at }}</p>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <a
+            href="{% url 'tasks:dashboard' %}"
+            class="btn btn-outline-secondary"
+            >Back to Dashboard</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
